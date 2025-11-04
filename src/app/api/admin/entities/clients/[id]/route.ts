@@ -4,16 +4,24 @@ import { withTenantContext } from '@/lib/api-wrapper'
 import { requireTenantContext } from '@/lib/tenant-utils'
 import { hasPermission, PERMISSIONS } from '@/lib/permissions'
 
+const addDeprecationHeaders = (response: NextResponse) => {
+  response.headers.set('Deprecation', 'true')
+  response.headers.set('Sunset', new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toUTCString())
+  response.headers.set('Link', '</api/admin/users>; rel="successor"')
+  response.headers.set('X-API-Warn', 'This endpoint is deprecated. Please use /api/admin/users instead.')
+  return response
+}
+
 export const GET = withTenantContext(async (req: Request, { params }: { params: { id: string } }) => {
   try {
     const ctx = requireTenantContext()
     const role = ctx.role ?? undefined
     if (!hasPermission(role, PERMISSIONS.USERS_VIEW)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return addDeprecationHeaders(NextResponse.json({ error: 'Unauthorized' }, { status: 401 }))
     }
 
     if (!ctx.tenantId) {
-      return NextResponse.json({ error: 'Tenant context missing' }, { status: 400 })
+      return addDeprecationHeaders(NextResponse.json({ error: 'Tenant context missing' }, { status: 400 }))
     }
 
     const client = await prisma.user.findFirst({
@@ -32,10 +40,10 @@ export const GET = withTenantContext(async (req: Request, { params }: { params: 
     })
 
     if (!client) {
-      return NextResponse.json({ error: 'Client not found' }, { status: 404 })
+      return addDeprecationHeaders(NextResponse.json({ error: 'Client not found' }, { status: 404 }))
     }
 
-    return NextResponse.json(client)
+    return addDeprecationHeaders(NextResponse.json(client))
   } catch (err) {
     console.error('GET /api/admin/entities/clients/[id] error', err)
     return NextResponse.json({ error: 'Failed to fetch client' }, { status: 500 })
