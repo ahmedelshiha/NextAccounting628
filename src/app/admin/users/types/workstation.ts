@@ -22,8 +22,8 @@ export interface WorkstationSidebarProps {
 }
 
 export interface WorkstationMainContentProps {
-  users?: UserItem[]
-  stats?: UserStats
+  users?: Array<{ id: string; name?: string; email: string }>
+  stats?: Record<string, number | string>
   isLoading?: boolean
   onAddUser?: () => void
   onImport?: () => void
@@ -35,7 +35,7 @@ export interface WorkstationMainContentProps {
 export interface WorkstationInsightsPanelProps {
   isOpen?: boolean
   onClose?: () => void
-  stats?: UserStats
+  stats?: Record<string, number | string>
   analyticsData?: unknown
 }
 
