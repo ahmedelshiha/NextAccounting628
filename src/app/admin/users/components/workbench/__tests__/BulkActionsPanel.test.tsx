@@ -1,19 +1,11 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { vi, describe, it, beforeEach, expect } from 'vitest'
 import BulkActionsPanel from '../BulkActionsPanel'
 
-// Mock DryRunModal
-vi.mock('../DryRunModal', () => ({
-  default: (props: any) => (
-    <div data-testid="dry-run-modal">
-      <div>Preview: {props.selectedCount} users</div>
-      <button onClick={() => props.onApply?.()}>Apply</button>
-      <button onClick={() => props.onCancel?.()}>Cancel</button>
-    </div>
-  )
-}))
+// Mock fetch for API calls
+global.fetch = vi.fn()
 
 describe('BulkActionsPanel', () => {
   const mockOnClear = vi.fn()
