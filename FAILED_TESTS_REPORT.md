@@ -133,3 +133,31 @@ If you want, I can:
 - Run each failing test individually and append detailed stack traces here (takes time) — confirm and I will run them one-by-one.
 - Create minimal mocks for Redis and tenant/session helpers to reduce noise and re-run tests to get a smaller failing list.
 
+
+## How to generate a complete failing-tests list locally (recommended)
+1. Run vitest and output JSON: pnpm test -- --reporter json > vitest-report.json
+2. Parse failures with the following Node script (save as scripts/parse-vitest-report.js):
+
+```js
+const fs = require('fs')
+const r = JSON.parse(fs.readFileSync('vitest-report.json', 'utf8'))
+const failed = []
+for (const file of r.files || []) {
+  for (const test of file.tests || []) {
+    if (test.status === 'fail') {
+      failed.push({ file: file.file, title: test.title, location: test.location })
+    }
+  }
+}
+fs.writeFileSync('FAILED_TESTS_DETAILED.json', JSON.stringify(failed, null, 2))
+console.log('Wrote FAILED_TESTS_DETAILED.json with', failed.length, 'entries')
+```
+
+3. Open FAILED_TESTS_DETAILED.json to see every failed test with file and title.
+
+This is the most reliable way to get an exhaustive list; I recommend running it in your CI or locally where DB/env are configured.
+
+--
+
+I updated this report with all failing test files that I observed during the runs I could execute (above). If you want, I can run vitest here again for a long-duration run and append the JSON results to the repo — but it may time out without proper env.
+
