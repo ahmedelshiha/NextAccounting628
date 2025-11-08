@@ -125,10 +125,17 @@ export default function TasksList() {
 
   const setStatusBulk = async () => {
     if (!selectedIds.length) return
-    const next = window.prompt(t('prompt.setStatus.tasks'))?.toUpperCase()
-    if (!next || !['OPEN','IN_PROGRESS','BLOCKED','COMPLETED','CANCELLED'].includes(next)) return
+    setSelectedBulkStatus(null)
+    setIsStatusModalOpen(true)
+  }
+
+  const applyStatusBulk = async () => {
+    if (!selectedIds.length || !selectedBulkStatus) return
+    const next = selectedBulkStatus.toUpperCase()
+    if (!['OPEN','IN_PROGRESS','BLOCKED','COMPLETED','CANCELLED'].includes(next)) return
     await apiFetch('/api/admin/tasks/bulk', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'status', taskIds: selectedIds, status: next }) })
     setSelectedIds([])
+    setIsStatusModalOpen(false)
     await mutate()
   }
 
