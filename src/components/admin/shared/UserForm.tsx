@@ -250,7 +250,7 @@ export const UserForm = React.forwardRef<HTMLDivElement, UserFormProps>(
               {errors.role && errors.role.message && (
                 <p className="text-sm text-red-600 font-medium">{String(errors.role.message)}</p>
               )}
-              <p className="text-xs text-slate-600">Defines the user's access level and permissions</p>
+              <p className="text-xs text-slate-600">Defines the user&apos;s access level and permissions</p>
             </div>
 
             {/* Active Status Checkbox */}
