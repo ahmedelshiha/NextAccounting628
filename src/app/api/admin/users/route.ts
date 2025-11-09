@@ -371,7 +371,7 @@ export const PUT = withTenantContext(async (request: NextRequest) => {
     })
 
     
-    await AuditLogService.createAuditLog({ tenantId: tenantId!, action: 'user.update', userId: updatedUser.id, metadata: { name, email, role } })
+    await AuditLogService.createAuditLog({ tenantId, action: 'user.update', userId: updatedUser.id, metadata: { name, email, role } })
 
     return NextResponse.json(updatedUser, { status: 200 })
   } catch (error: any) {
