@@ -25,9 +25,9 @@ interface PermissionsTabProps {
 export const PermissionsTab = memo(function PermissionsTab({ user }: PermissionsTabProps) {
   const { setSelectedUser } = useUsersContext()
   const [isSaving, setIsSaving] = useState(false)
-  const [selectedRole, setSelectedRole] = useState(user.role || 'VIEWER')
+  const [selectedRole, setSelectedRole] = useState<'ADMIN' | 'CLIENT' | 'TEAM_MEMBER' | 'TEAM_LEAD' | 'STAFF' | 'VIEWER'>(user.role || 'VIEWER')
   const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>(
-    user.permissions || []
+    (user.permissions as Permission[]) || []
   )
   const [error, setError] = useState<string | null>(null)
 
