@@ -213,21 +213,79 @@ useEffect(() => {
 
 ---
 
-## 🎯 Phase 5g: Autocomplete Suggestions ⏳
+## 🎯 Phase 5g: Autocomplete Suggestions ✅
 
-### Status: Pending (Next Iteration)
-Recommended implementation approach:
-1. Create useSearchSuggestions hook
-2. Parse user data for common search terms
-3. Debounce suggestions (300ms)
-4. Show up to 5 suggestions in dropdown
-5. Highlight matching text in suggestions
+### Status: Complete
 
-### Suggested Features
-- Most common names
-- Most common email domains
-- Recently searched terms
-- Smart ranking by frequency
+### Files Created
+- **src/app/admin/users/hooks/useSearchSuggestions.ts** (232 lines)
+  - Extracts search terms from user data (names, emails, domains, phones, companies, departments)
+  - Implements 300ms debounce for performance
+  - Ranks suggestions by frequency and relevance
+  - Highlights matching text in suggestions
+
+- **src/app/admin/users/components/SearchSuggestionsDropdown.tsx** (171 lines)
+  - Displays up to 5 suggestions in dropdown
+  - Shows suggestion type badge (Name, Email, Domain, etc.)
+  - Displays frequency count
+  - Keyboard navigation (↑↓ Arrow keys, Enter, Escape)
+  - Accessible listbox with proper ARIA labels
+
+### Features Implemented
+- **Smart Extraction:** Parses all user fields to generate suggestions
+- **Frequency Ranking:** Suggestions ranked by how often they appear in user data
+- **Smart Matching:** Prioritizes exact matches, then starts-with, then contains
+- **Text Highlighting:** Matching portion highlighted in suggestions
+- **Type Indicators:** Color-coded badges show suggestion type
+- **Keyboard Navigation:** Full keyboard support for accessibility
+- **Debouncing:** 300ms debounce prevents excessive re-renders
+- **Quick Feedback:** "Loading..." state while computing suggestions
+
+### Implementation Details
+
+**useSearchSuggestions Hook:**
+```typescript
+const { suggestions, isLoading } = useSearchSuggestions(
+  users,           // Array of user objects
+  searchQuery,     // Current search input value
+  5                // Max suggestions (default 5)
+)
+```
+
+**Features:**
+- Extracts terms from: name parts, full emails, email domains, phone numbers, companies, departments
+- Debounces suggestion generation by 300ms
+- Ranks by frequency and relevance
+- Returns highlighted HTML for matches
+
+**SearchSuggestionsDropdown Component:**
+- Shows suggestions with type badges
+- Displays frequency count
+- Color-coded: Names (blue), Emails (green), Phones (purple), Companies (orange), Departments (indigo)
+- Full keyboard accessibility
+- Auto-scrolls selected item into view
+
+### Integration with Filter Bar
+- Integrated into UserDirectoryFilterBarEnhanced
+- Shows suggestions when user types in search input
+- Auto-focuses dropdown on input focus
+- Selects suggestion by clicking or pressing Enter
+- Escapes dropdown with Esc key
+
+### Example Usage
+User types "john" → Hook extracts all variations of "John" from user data:
+1. "john smith" (name) - 5 matches
+2. "john.doe@gmail.com" (email) - 3 matches
+3. "@gmail.com" (domain) - 15 matches
+4. "johnson" (name) - 2 matches
+5. "john" (company) - 1 match
+
+### Performance Optimizations
+- 300ms debounce prevents excessive re-renders
+- Memoized term extraction
+- Early exit on empty query
+- Efficient frequency counting
+- No external API calls (all client-side)
 
 ---
 
