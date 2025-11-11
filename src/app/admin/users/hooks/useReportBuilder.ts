@@ -90,7 +90,7 @@ export function useReportBuilder(options: UseReportBuilderOptions = {}) {
 
       const newSection: ReportSection = {
         ...section,
-        id: crypto.getRandomUUID(),
+        id: crypto.randomUUID(),
         order: report.sections.length
       }
 
