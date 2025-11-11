@@ -145,7 +145,7 @@ export function useFilterState(users: UserItem[]) {
   )
 
   const clearFilters = useCallback(() => {
-    setFilters({ search: '', roles: [], statuses: [] })
+    setFilters({ search: '', roles: [], statuses: [], advancedQuery: undefined })
   }, [])
 
   const updateFilter = useCallback((key: keyof FilterState, value: any) => {
