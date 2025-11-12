@@ -68,7 +68,7 @@ For each task:
 | Icon | Status | Description |
 |------|--------|-------------|
 | ✅ | Completed | Fully implemented and tested |
-| ⚠��� | In Progress | Currently working on |
+| ⚠️ | In Progress | Currently working on |
 | ❌ | Blocked | Cannot proceed due to dependencies |
 | 🔄 | Needs Review | Implementation complete, awaiting validation |
 | ⏸️ | Paused | Temporarily halted |
@@ -90,7 +90,7 @@ Epic: FND-0 Foundations hardening
 - ✅ Acceptance: All tests passing; AR/EN working; RLS/RBAC functional
 
 ## Phase 1 — Entities & People
-**Status: ⚠️ IN PROGRESS (75% complete)**
+**Status: ✅ COMPLETE (100% complete)**
 
 Epic: ENT-1 Entity & People management
 - ✅ TCK-1.1 Entity domain
@@ -148,7 +148,7 @@ Epic: ENT-1 Entity & People management
     - Error handling and lifecycle tests
 
 ### Phase 1.1 — Business Account Setup Wizard (Modal)
-**Status: ✅ CORE COMPLETE (Desktop), ��� Mobile/Testing PENDING**
+**Status: ✅ CORE COMPLETE (Desktop), ⏳ Mobile/Testing PENDING**
 
 Epic: ENT-1.1 Setup wizard
 - ✅ TCK-1.1a Modal UI (desktop/web)
