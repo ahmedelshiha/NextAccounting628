@@ -74,7 +74,8 @@ function getEntityType(entity: Entity): string {
  * - Egypt: Graduated corporate tax (22-25%) applies to all companies
  */
 export function calculateCorporateTaxObligation(entity: Entity, turnover: number): boolean {
-  switch (entity.country) {
+  const country = entity.country as CountryCode;
+  switch (country) {
     case 'AE':
       return turnover > 375000; // AED threshold
     case 'SA':
